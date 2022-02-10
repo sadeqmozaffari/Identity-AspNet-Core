@@ -1,0 +1,87 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://code.highcharts.com/modules/drilldown.js"></script>
+
+<style>
+    .highcharts-root {
+      font-family: Vazir_Medium !important;
+}
+    .highcharts-credits {
+      display: none !important;
+}
+</style>
+
+<div id="modal-placeholder"></div>
+<nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
+    <div class="container-fluid">
+        <!-- Brand -->
+        <ul class="nav nav-sitemap justify-content-center justify-content-xl-end">
+            <li>
+                <a class="h4 mb-0 text-white d-lg-inline-block" href="./index.html"> داشبورد </a>
+            </li>
+        </ul>
+
+        <!-- User -->
+        @await Html.PartialAsync("_AdminLogin")
+    </div>
+</nav>
+<!-- Header -->
+<div class="header bg-gradient-primary pb-6 pt-5 pt-md-8">
+</div>
+
+
+
+<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+
+<script>
+    // Create the chart
+Highcharts.chart('container', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'نمودار بازدیدهای اخبار منتشر شده در هر ماه'
+    },
+    xAxis: {
+        type: 'category'
+    },
+    yAxis: {
+        title: {
+            text: 'تعداد بازدید'
+        }
+
+    },
+    legend: {
+        enabled: false
+    },
+    plotOptions: {
+        series: {
+            borderWidth: 0,
+            dataLabels: {
+                enabled: true,
+                format: '{point.y}'
+            }
+        }
+    },
+
+    tooltip: {
+        headerFormat: '<span style="font-size:12px">{series.name}</span><br>',
+        pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}'
+    },
+
+    series: [
+        {
+            name: "ماه ها",
+            colorByPoint: true,
+            data: @*@Html.Raw(Json.Serialize(ViewBag.NumberOfVisitChart))*@,
+        }
+    ],
+});
+</script>
